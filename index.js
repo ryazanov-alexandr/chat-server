@@ -6,15 +6,23 @@ const server = http.createServer(app);
 
 dotenv.config(); 
 
+const corsOptions = {
+    origin: process.env.CORS_ORIGIN.split(','),
+    methods: ["GET", "POST"],
+};
+
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', corsOptions.origin);
+    res.setHeader('Access-Control-Allow-Methods', corsOptions.methods.join(','));
+    next();
+})
+
 app.get('/', (req, res) => {
     res.send('Hello')
 })
 
 const io = require("socket.io")(server, {
-    cors: {
-      origin: process.env.CORS_ORIGIN.split(','),
-      methods: ["GET", "POST"]
-    },
+    cors: corsOptions,
     maxHttpBufferSize: 1e7
   });
 

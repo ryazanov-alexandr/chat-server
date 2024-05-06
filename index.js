@@ -6,6 +6,10 @@ const server = http.createServer(app);
 
 dotenv.config(); 
 
+app.get('/', (req, res) => {
+    res.send('Hello')
+})
+
 const io = require("socket.io")(server, {
     cors: {
       origin: process.env.CORS_ORIGIN.split(','),
